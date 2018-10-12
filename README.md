@@ -1,21 +1,19 @@
 # Locust-Docker
+[![MIT licensed](https://img.shields.io/badge/license-MIT-blue.svg)](https://raw.githubusercontent.com/taherbs/Locust-Docker/master/LICENSE)
 
-[![MIT licensed]([License])
-
-
-The purpose of this project is to provide a ready and easy-to-use version of [locust.io] which also contains additional/useful features that are required.
+The purpose of this project is to provide a ready and easy-to-use version of [locust.io] service, additionally to features that are a nice to have.
 
 ## Architecture
 
 Locust-Docker consist of 2 different roles:
 
 - Master: Instance that will run Locust's web interface where you start and stop the load test and see live statistics.
-- Slave: Instance that will simulate users and attack the target url based on user parameters.
+- Slave: Instance that will load and attack the target url based parameters set in the [.env] file.
 
 This architecture support following type of deployment:
 
-- Single container (standalone mode): If user have only one single machine.
-- Multiple containers: If user have more than one machine and want to create bigger load. This type of deployment might be used in docker-swarm or kubernetes case. A multiple containers mode deployment example is defined in the [docker-compose].
+- Single container mode (standalone mode): If user have only one single machine.
+- Multiple containers mode: If user have more than one machine and want to create bigger load. This type of deployment might be used in docker-swarm or kubernetes cases. A multiple containers mode deployment example is defined in this project using [docker-compose].
 
 ## Requirements
 1. [docker engine]
@@ -23,7 +21,7 @@ This architecture support following type of deployment:
 
 ## Getting Started
 
-### Set entry parameters
+### Set configuration
 
 Update the .env file with needed params
 
@@ -31,7 +29,7 @@ Update the .env file with needed params
 vi .env
 ```
 
-### Build container locally on your machine
+### Build container locally on your machine (Optional)
 
 ```bash
 # Build service container
@@ -49,7 +47,7 @@ make standalone-run
 
 ### Multiple machines
 
-Multiple containers mode is useful to create bigger load (if you have more than one machine). In this point we are using docker-compose, but it is also possible to run it in different ways, e.g. Cloudformation in AWS, Kubernetes, Swarm.
+Multiple containers mode is useful to create bigger load (if you have more than one machine). In this example we are using docker-compose, but it is also possible to run it on different other platforms, e.g. using Cloudformation in AWS, Kubernetes or Swarm.
 
 Run the application with the command:
 
@@ -58,7 +56,7 @@ Run the application with the command:
 make distributed-run
 ```
 
-[License]: <LICENSE.md>
+[.env]: <.env>
 [locust.io]: <http://locust.io>
 [docker engine]: <https://docs.docker.com/engine/installation/>
 [docker-compose]: <https://docs.docker.com/compose/install/>
