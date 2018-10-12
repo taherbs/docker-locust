@@ -12,8 +12,8 @@ endif
 
 .PHONY: check-env
 check-env:
-ifndef ATTACKED_HOST
-	$(error ATTACKED_HOST env-var is not defined)
+ifeq (,$(wildcard ./.env))
+    $(error .env file is not defined)
 endif
 
 .PHONY: build
@@ -23,8 +23,7 @@ build:
 .PHONY: standalone-run
 standalone-run: check-env standalone-stop
 	docker run --rm \
-	-e ATTACKED_HOST=$(ATTACKED_HOST) \
-	-e LOCUST_FILE="basic-locustfile.py" \
+	--env-file .env \
 	-v $(WORK_DIR)/locust-tasks:/locust \
 	--name $(APP_SERVICE_NAME) \
 	--hostname $(APP_SERVICE_NAME) \
@@ -35,12 +34,9 @@ standalone-stop:
 	docker rm -f $(APP_SERVICE_NAME) || true
 
 .PHONY: distributed-run
-standalone-run: check-env standalone-stop
-	docker-compose -d up \
-	-e ATTACKED_HOST=$(ATTACKED_HOST) \
-	-e LOCUST_FILE="basic-locustfile.py"
+distributed-run: check-env distributed-stop
+	docker-compose up -d
 
 .PHONY: distributed-stop
-standalone-stop:
+distributed-stop:
 	docker-compose down
-

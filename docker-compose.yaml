@@ -1,52 +1,50 @@
-version: '2'
+version: '3'
 services:
   master:
     image: taherbs/locust
+    container_name: locustmaster
     ports:
       - 5557-5558:5557-5558
       - 8089:8089
     volumes:
-      - ~/.aws:/root/.aws
-      - ./:/opt/script
+      - ./locust-tasks:/locust
+    env_file:
+      - .env
     environment:
-      - ROLE=master
-      - TARGET_HOST=$TARGET_HOST
-      - LOCUST_FILE=$LOCUST_FILE
-      - SEND_ANONYMOUS_USAGE_INFO=$SEND_ANONYMOUS_USAGE_INFO
-      - BUILD_URL=$BUILD_URL
+      - LOCUST_MODE=master
+    networks:
+      - locustnetwork
+
   slave1:
-    image: $IMAGE
+    image: taherbs/locust
+    container_name: locustslave1
     depends_on:
       - master
-    network_mode: "service:master"
     volumes:
-      - ~/.aws:/root/.aws
-      - ./:/opt/script
-      - ./credentials:/meta/credentials
+      - ./locust-tasks:/locust
+    env_file:
+      - .env
     environment:
-      - ROLE=slave
-      - MASTER_HOST=master
-      - TARGET_HOST=$TARGET_HOST
-      - LOCUST_FILE=$LOCUST_FILE
-      - SLAVE_MUL=$SLAVE_NUM
-      - OAUTH=$OAUTH
-      - URL=$URL
-      - SCOPES=$SCOPES
+      - LOCUST_MODE=slave
+      - LOCUST_MASTER=master
+    networks:
+      - locustnetwork
+
   slave2:
-    image: $IMAGE
+    image: taherbs/locust
+    container_name: locustslave2
     depends_on:
       - master
-    network_mode: "service:master"
     volumes:
-      - ~/.aws:/root/.aws
-      - ./:/opt/script
-      - ./credentials:/meta/credentials
+      - ./locust-tasks:/locust
+    env_file:
+      - .env
     environment:
-      - ROLE=slave
-      - MASTER_HOST=master
-      - TARGET_HOST=$TARGET_HOST
-      - LOCUST_FILE=$LOCUST_FILE
-      - SLAVE_MUL=$SLAVE_NUM
-      - OAUTH=$OAUTH
-      - URL=$URL
-      - SCOPES=$SCOPES
+      - LOCUST_MODE=slave
+      - LOCUST_MASTER=master
+    networks:
+      - locustnetwork
+### Networks Setup ###
+networks:
+  locustnetwork:
+    driver: "bridge"
