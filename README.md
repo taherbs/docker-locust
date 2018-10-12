@@ -49,8 +49,6 @@ make standalone-run
 
 Multiple containers mode is useful to create bigger load (if you have more than one machine). In this example we are using docker-compose, but it is also possible to run it on different other platforms, e.g. using Cloudformation in AWS, Kubernetes or Swarm.
 
-Run the application with the command:
-
 ```bash
 # Run the service in multi-containers
 make distributed-run
