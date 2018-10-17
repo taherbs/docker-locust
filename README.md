@@ -1,11 +1,11 @@
-# Locust-Docker
-[![MIT licensed](https://img.shields.io/badge/license-MIT-blue.svg)](https://raw.githubusercontent.com/taherbs/Locust-Docker/master/LICENSE)
+# Docker-Locust
+[![MIT licensed](https://img.shields.io/badge/license-MIT-blue.svg)](https://raw.githubusercontent.com/taherbs/Docker-Locust/master/LICENSE)
 
 The purpose of this project is to provide a ready and easy-to-use version of [locust.io] service, additionally to features that are a nice to have.
 
 ## Architecture
 
-Locust-Docker consist of 2 different roles:
+Docker-Locust consist of 2 different roles:
 
 - Master: Instance that will run Locust's web interface where you start and stop the load test and see live statistics.
 - Slave: Instance that will load and attack the target url based parameters set in the [.env] file.
